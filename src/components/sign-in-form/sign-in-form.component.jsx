@@ -10,6 +10,7 @@ import {
 
 import FormInput from "../form-input/form-input.component";
 import Button from "../custom-button/custom-button.component";
+import { UserContext } from "../../contexts/user.context";
 
 import "./sign-in-form.style.scss"
 
@@ -23,9 +24,9 @@ function SignInForm() {
     const [formFields, setFormFields] = useState(defaultFormFields);
     const {email, password} = formFields;
 
+
     const loginGoogleUser = async () => {
-        const { user } = await signInWithGooglePopup();
-        await createUserDocumentFromAuth(user);
+        await signInWithGooglePopup();
 
     }
     
@@ -47,7 +48,8 @@ function SignInForm() {
         event.preventDefault();
 
         try{ 
-            const response = await signInWithUserEmailAndPassword(email, password);
+            const {user} = await signInWithUserEmailAndPassword(email, password);
+
             setFormFields(defaultFormFields);
         } catch (error) {
             console.log(error.code)
@@ -74,7 +76,7 @@ function SignInForm() {
                 <FormInput label='Password' type='password' name='password' value={password} onChange={handleChange} required />
                 <div className="buttons-container">
                     <Button type='submit'>Sign in</Button>
-                    <Button type='button' buttonType='google' onClick={loginGoogleUser}>Google Sign iIn</Button>
+                    <Button type='button' buttonType='google' onClick={loginGoogleUser}>Google Sign In</Button>
                 </div>
             </form>
         </div>
