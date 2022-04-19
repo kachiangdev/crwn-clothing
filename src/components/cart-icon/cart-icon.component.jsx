@@ -9,14 +9,21 @@ import "./cart-icon.style.scss";
 
 function CartIcon() {
 
-    const { isCartOpen, setIsCartOpen } = useContext(CartContext);
+    const { isCartOpen, setIsCartOpen, cartItems } = useContext(CartContext);
 
     const toggleIsCartOpen = () => {setIsCartOpen(!isCartOpen)} 
+    
+    const getTotalItemsInCart = () => {
+        if(cartItems === null) return 0;
+        
+        return cartItems.reduce((previousValue, currentValue)=>
+            previousValue + currentValue.quantity, 0);
+    }
 
     return (
         <div className="cart-icon-container" onClick={toggleIsCartOpen}>
             <ShoppingIcon />
-            <span className="item-count">0</span>
+            <span className="item-count">{getTotalItemsInCart()}</span>
         </div>
     );
 }
