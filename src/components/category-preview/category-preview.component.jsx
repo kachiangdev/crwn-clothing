@@ -5,10 +5,10 @@ import ProductCard from "../product-card/product-card.component";
 import "./category-preview.style.scss";
 
 const CategoryPreview = ({title, products, previewMode}) => {
-    const displayedProducts = [...products];
-    if (previewMode) {
+    let displayedProducts = products;
+    if (previewMode && displayedProducts) {
         if (products.length >= 4) {
-            displayedProducts.length = 4;
+            displayedProducts = displayedProducts.filter((el, idx) => idx < 4);
         }
 
     }
@@ -25,11 +25,14 @@ const CategoryPreview = ({title, products, previewMode}) => {
                 </h2>
                 : <h2>{title.toUpperCase()}</h2>
             }
-            <div className="products-container">
-                {displayedProducts.map((product) => (
-                <ProductCard key={product.id} product={product}/>
-                ))}
-            </div>
+            {
+                (displayedProducts) && 
+                <div className="products-container">
+                    {displayedProducts.map((product) => (
+                    <ProductCard key={product.id} product={product}/>
+                    ))}
+                </div>
+            }
         </>
     );
 }
