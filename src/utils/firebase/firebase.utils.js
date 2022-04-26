@@ -14,7 +14,12 @@ import {
     getFirestore,
     doc,
     getDoc,
-    setDoc
+    setDoc,
+    collection,
+    addDoc,
+    writeBatch,
+    getDocs,
+    query,
 } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -83,3 +88,45 @@ export const signInWithUserEmailAndPassword = async (email, password) => {
 export const signOutUser = async() => await signOut(auth);
 
 export const onAuthStateChangedListener = (callback) => onAuthStateChanged(auth, callback);
+
+export const exportDataToFireStore = (data) => {
+    try{
+        data.forEach(element => {
+            const title = element.title;
+            element.items.forEach(async subElement => {
+                const docRef = await addDoc(collection(db, title), {...subElement});
+                console.log("Document written with ID: ", docRef.id);    
+            });
+        });
+
+    } catch (e) {
+        console.error("Error adding document: ", e);
+    }
+
+}
+
+export const addCollectionAndDocuments = async (collectionKey, objectToAdd) => {
+    const collectionRef = collection(db, collectionKey);
+    const batch = writeBatch(db);
+
+
+    objectToAdd.forEach(object => {
+        const docRef = doc(collectionRef, object.title.toLowerCase());
+        batch.set(docRef, object)
+    });
+    await batch.commit();
+    console.log("done");
+}
+
+export const getCollectionAndDocuments = async () => {
+    const collectionRef = await collection(db, 'categories');
+    const q = query(collectionRef);
+
+    const querySnapshot = await getDocs(q);
+    const categoryMap = querySnapshot.docs.reduce((acc, docSnapshot) => {
+        const {title, items} = docSnapshot.data();
+        acc[title.toLowerCase()] = items;
+        return acc;
+    }, {})
+    return categoryMap;
+}
