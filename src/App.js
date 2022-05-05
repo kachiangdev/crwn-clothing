@@ -8,6 +8,7 @@ import {Routes, Route} from 'react-router-dom'
 
 
 function App() {
+  console.log("rendering app...");
   return (
     <Routes>
       <Route path="/" element={<Navigation />} >
