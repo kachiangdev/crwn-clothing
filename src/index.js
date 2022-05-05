@@ -20,7 +20,8 @@ ReactDOM.render(
         </CategoriesProvider>
       </UserProvider>
     </BrowserRouter>  
-  </React.StrictMode>,
+  </React.StrictMode>
+  ,
   document.getElementById('root')
 );
 
