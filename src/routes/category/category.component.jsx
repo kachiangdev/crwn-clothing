@@ -1,13 +1,16 @@
-import { useContext, Fragment } from "react";
-import { CategoriesContext } from "../../contexts/categories.context";
+import { Fragment } from "react";
 import CategoryPreview from "../../components/category-preview/category-preview.component";
 import { useParams } from "react-router-dom";
-
+import { useSelector } from "react-redux";
+import { selectCategoriesMap } from "../../store/categories/categories.selector";
 
 const Category = () => {
-    const {categoriesMap} = useContext(CategoriesContext);
+    // const {categoriesMap} = useContext(CategoriesContext);
+    const categoriesMap = useSelector(selectCategoriesMap);
     const {category} = useParams();
-    console.log(categoriesMap);
+    console.log("render/re-rendering category component")
+
+
     return (
         <Fragment>
         {
