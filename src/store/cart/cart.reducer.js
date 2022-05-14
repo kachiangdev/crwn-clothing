@@ -15,7 +15,6 @@ const addCartItem = (cartItems, productToAdd) => {
 }
 
 const removeCartItem = (cartItems, productToRemove, removeAllQuantity) => {
-    console.log(cartItems)
     const retVal = [...cartItems];
     for (let i = 0; i < cartItems.length; i++) {
         if (cartItems[i].id === productToRemove.id) {
@@ -38,7 +37,6 @@ const INITIAL_STATE = {
 }
 
 export const cartReducer = (state = INITIAL_STATE, action) => {
-    console.log(action);
     const {type, payload} = action;
 
 
