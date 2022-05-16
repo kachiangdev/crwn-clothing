@@ -2,7 +2,8 @@ import {Routes, Route} from 'react-router-dom'
 import Category from '../category/category.component';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { fetchCategoriesAsync } from '../../store/categories/categories.action';
+// import { fetchCategoriesAsync } from '../../store/categories/categories.action';
+import { fetchCategoriesStart } from '../../store/categories/categories.action';
 
 import "./shop.style.scss";
 
@@ -17,7 +18,8 @@ function Shop() {
         //     dispatch(setCategories(categoriesArray));
         // }
         // getCategories();
-        dispatch(fetchCategoriesAsync());
+        // dispatch(fetchCategoriesAsync());
+        dispatch(fetchCategoriesStart());
       },[dispatch])
 
     return (

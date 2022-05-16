@@ -1,18 +1,21 @@
 import { useState } from "react";
 
-import {
-    auth,
-    signInWithGooglePopup,
-    signInWithGoogleRedirect,
-    signInWithFacebookPopup, 
-    signInWithUserEmailAndPassword,
-    createUserDocumentFromAuth} from "../../utils/firebase/firebase.utils";
+// import {
+//   //  auth,
+//     signInWithGooglePopup,
+//     //signInWithGoogleRedirect,
+//    // signInWithFacebookPopup, 
+//     signInWithUserEmailAndPassword,
+// //    createUserDocumentFromAuth
+// } from "../../utils/firebase/firebase.utils";
 
 import FormInput from "../form-input/form-input.component";
 import Button from "../custom-button/custom-button.component";
-import { UserContext } from "../../contexts/user.context";
+// import { UserContext } from "../../contexts/user.context";
 
 import "./sign-in-form.style.scss"
+import { useDispatch } from "react-redux";
+import { emailSignInStart, googleSignInStart } from "../../store/user/user.action";
 
 const defaultFormFields = {
     email: '',
@@ -25,11 +28,15 @@ function SignInForm() {
     const {email, password} = formFields;
 
 
-    const loginGoogleUser = async () => {
-        await signInWithGooglePopup();
+    // const loginGoogleUser = async () => {
+    //     await signInWithGooglePopup();
 
+    // }
+    const dispatch = useDispatch();
+    const loginGoogleUser = async() => {
+        dispatch(googleSignInStart());
     }
-    
+
     // const loginFacebookUser = async () => {
     //     try{
     //         const facebookResponse = await signInWithFacebookPopup();
@@ -48,8 +55,9 @@ function SignInForm() {
         event.preventDefault();
 
         try{ 
-            const {user} = await signInWithUserEmailAndPassword(email, password);
-
+            // const {user} = await signInWithUserEmailAndPassword(email, password);
+            // await signInWithUserEmailAndPassword(email, password);
+            dispatch(emailSignInStart(email, password));
             setFormFields(defaultFormFields);
         } catch (error) {
             console.log(error.code)

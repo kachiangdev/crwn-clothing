@@ -1,4 +1,3 @@
-import { render } from "react-dom";
 import "./spinner.style.scss";
 
 const Spinner = () => {

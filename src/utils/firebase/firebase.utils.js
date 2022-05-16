@@ -33,7 +33,8 @@ const firebaseConfig = {
   };
 
 // Initialize Firebase
-const firebaseApp = initializeApp(firebaseConfig);
+// const firebaseApp = initializeApp(firebaseConfig);
+initializeApp(firebaseConfig);
 
 const googleProvider = new GoogleAuthProvider();
 googleProvider.setCustomParameters({
@@ -72,7 +73,7 @@ export const createUserDocumentFromAuth = async (userAuth, additionalInfo = {}) 
         }
     }
 
-    return userDocRef;
+    return userSnapshot;
 }
 
 export const createAuthUserWithEmailAndPassword = async (email, password) => {
@@ -131,4 +132,17 @@ export const getCollectionAndDocuments = async () => {
     //     return acc;
     // }, {})
     // return categoryMap;
+}
+
+export const getCurrentUser = () => {
+    return new Promise((resolve, reject) => {
+        const unsubscribe = onAuthStateChanged(
+            auth,
+            (userAuth) => {
+                unsubscribe();
+                resolve(userAuth);
+            },
+            reject
+        )
+    })
 }
